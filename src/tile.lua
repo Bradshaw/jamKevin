@@ -3,7 +3,8 @@ local tile = {}
 
 tile.id = {
 	floor = 0,
-	wall = 1
+	wall = 1,
+	gelee = 2
 }
 
 
