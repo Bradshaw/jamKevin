@@ -24,8 +24,16 @@ end
 
 function love.update(dt)
 
-	self.shakeX = math.max(0, self.shakeX-dt/2)
-	self.shakeY = math.max(0, self.shakeY-dt/2)
+	if self.shakeY < 0 then
+		self.shakeY = math.min(0, self.shakeX+dt/2)
+	elseif self.shakeY > 0 then
+		self.shakeY = math.max(0, self.shakeX-dt/2)
+	end
+	if self.shakeX < 0 then
+		self.shakeX = math.min(0, self.shakeX+dt/2)
+	elseif self.shakeX > 0 then
+		self.shakeX = math.max(0, self.shakeX-dt/2)
+	end
 	
 	if love.keyboard.isDown("right") and l:getTile(math.floor(player.x/tileSize)+1,math.floor(player.y/tileSize)).id ~= tile.id.wall  and l:getTile(math.floor(player.x/tileSize)+1,math.floor(player.y/tileSize)).id ~= tile.id.gelee then
 		speed = math.min(speed+0.1, 4)
@@ -54,7 +62,6 @@ function love.update(dt)
 	if player.y < 1 then
 		player.ySpeed = 0
 	end
-	print(player.ySpeed)
 	if player.isGrounded==false then
 		player.ySpeed =  math.min(20,player.ySpeed + player.gravSecond * frame )
 	end
@@ -68,8 +75,8 @@ function love.update(dt)
 		player.y = player.y-tileSize/4
 		soundSpouich:stop()
 		soundSpouich:play()
-		self.shakeX = math.random(-10,10)
-		self.shakeY = math.random(-10,10)
+		self.shakeX = math.random(-5,5)
+		self.shakeY = math.random(-5,5)
 		if l:getTile(math.floor(player.x/tileSize),math.floor(player.y/tileSize)+1).id == tile.id.wall then
 			l:setTile(math.floor(player.x/tileSize),math.floor(player.y/tileSize)+1,tile.new(tile.id.gelee,0))
 		end
